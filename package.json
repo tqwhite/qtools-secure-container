@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tqwhite/sscSecretServer/issues"
   },
-  "homepage": "https://github.com/tqwhite/sscSecretServer"
+  "homepage": "https://github.com/tqwhite/sscSecretServer",
+  "dependencies": {
+    "body-parser": "^1.10.1"
+  }
 }
