@@ -32,9 +32,6 @@ var secretStoragePath = config.secretStoragePath;
 
 //INITIALIZE =======================================================
 
-console.log('secretStoragePath=' + secretStoragePath + '\n');
-
-
 var nameMaker = require('nameMaker');
 nameMaker = new nameMaker({
 	secretStoragePath: secretStoragePath
@@ -54,27 +51,22 @@ app.use('/', router);
 
 
 router.get('/access', function(req, res, next) {
-	console.log('\'get\' request from mastermind');
-	console.log("req.body.codeName=");
-	console.dir(req.body.codeName);
-
 
 	var fileReader = new fileManagerGenerator({
 		fileName: req.body.codeName,
 		storageDirectoryPath: secretStoragePath
 	})
 	fileReader.getItForMe(function(err, result) {
+
 		if (err) {
-console.dir({'\n\n=-=== err =====':err});
-
-
 			res.json({
 				status: -1,
 				message: err.message
 			});
 			return;
 		}
-		console.log('\n\n\got file data '+result.length+": "+result);
+
+		result=result.toString();
 
 		res.json({
 			status: 1,
@@ -97,15 +89,12 @@ router.post('/access', function(req, res, next) {
 	})
 	fileWriter.takeItAway(req.body.hiddenSecret, function(err, result) {
 		if (err) {
-
-
 			res.json({
 				status: -1,
 				message: err.message
 			});
 			return;
 		}
-		console.log('\n\n\'post\' received from mastermind ' + req.body.hiddenSecret);
 
 		res.json({
 			status: 1,
