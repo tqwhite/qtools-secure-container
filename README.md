@@ -1,4 +1,4 @@
-sscSecretServer
+qtools-secure-container
 ===============
 
-Super Secret Crypto's Secret Server
+An encrypted file format that is more transparent and useful than a zip file.
