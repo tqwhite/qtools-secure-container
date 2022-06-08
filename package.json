@@ -1,0 +1,25 @@
+{
+  "name": "qtools-secure-container",
+  "version": "0.0.1",
+  "description": "An encrypted file format that is more transparent and useful than a zip file.",
+  "main": "qtools-secure-container.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tqwhite/qtools-secure-container.git"
+  },
+  "keywords": [
+    "rsa",
+    "encrypt",
+    "decrypt",
+    "transport"
+  ],
+  "author": "TQ White II",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tqwhite/qtools-secure-container/issues"
+  },
+  "homepage": "https://github.com/tqwhite/qtools-secure-container#readme"
+}
