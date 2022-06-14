@@ -1,6 +1,6 @@
 {
   "name": "qtools-secure-container",
-  "version": "0.0.2",
+  "version": "0.0.22",
   "description": "An encrypted file format that is more transparent and useful than a zip file.",
   "main": "qtools-secure-container.js",
   "scripts": {
@@ -21,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/tqwhite/qtools-secure-container/issues"
   },
-  "homepage": "https://github.com/tqwhite/qtools-secure-container#readme"
+  "homepage": "https://github.com/tqwhite/qtools-secure-container#readme",
+  "dependencies": {
+    "node-rsa": "^1.1.1",
+    "qtools-asynchronous-pipe-plus": "^1.0.2",
+    "qtools-functional-library": "^1.1.10"
+  }
 }
