@@ -15,9 +15,8 @@ const nodeRsa = require('node-rsa');
 //START OF moduleFunction() ============================================================
 
 const moduleFunction = function(args, callback) {
-
 	const { privateKey, publicKey, newKey } = args;
-	let {nodeRsaKey}=args;
+	let { nodeRsaKey } = args;
 
 	const noPrivateKeyWrap = (args, callback) => {
 		callback(
@@ -25,35 +24,35 @@ const moduleFunction = function(args, callback) {
 		);
 	};
 
-	let wrap;
-	let unwrap;
+	let wrapFile;
+	let unwrapFile;
 	let swapKey;
 	let err = '';
 
 	if (nodeRsaKey) {
-		wrap = wrapGen({ nodeRsaKey }).wrap;
-		unwrap = unwrapGen({ nodeRsaKey }).unwrap;
+		wrapFile = wrapGen({ nodeRsaKey }).wrapFile;
+		unwrapFile = unwrapGen({ nodeRsaKey }).unwrapFile;
 		swapKey = swapKeyGen({ nodeRsaKey, newKey }).swapKey;
 	} else if (!nodeRsaKey && privateKey) {
 		nodeRsaKey = nodeRsa(privateKey);
-		wrap = wrapGen({ nodeRsaKey }).wrap;
-		unwrap = unwrapGen({ nodeRsaKey }).unwrap;
+		wrapFile = wrapGen({ nodeRsaKey }).wrapFile;
+		unwrapFile = unwrapGen({ nodeRsaKey }).unwrapFile;
 		swapKey = swapKeyGen({ nodeRsaKey, newKey }).swapKey;
 	} else if (!nodeRsaKey && publicKey) {
 		nodeRsaKey = nodeRsa(publicKey);
-		wrap = wrapGen({ nodeRsaKey }).wrap;
-		unwrap = noPrivateKeyWrap; //can wrap() a thing but not unwrap() it w/o private key
+		wrapFile = wrapGen({ nodeRsaKey }).wrapFile;
+		unwrapFile = noPrivateKeyWrap; //can wrap() a thing but not unwrap() it w/o private key
 		swapKey = swapKeyGen({ nodeRsaKey, newKey }).swapKey;
 	} else if (!nodeRsaKey) {
 		nodeRsaKey = nodeRsa({ b: 2048 });
-		wrap = wrapGen({ nodeRsaKey, returnNewKeys: true }).wrap;
-		unwrap = unwrapGen({ nodeRsaKey }).unwrap;
+		wrapFile = wrapGen({ nodeRsaKey, returnNewKeys: true }).wrapFile;
+		unwrapFile = unwrapGen({ nodeRsaKey }).unwrapFile;
 		swapKey = swapKeyGen({ nodeRsaKey, newKey }).swapKey;
 	} else {
 		err = 'No keys supplied to qtools-secure-container';
 	}
 
-	callback(err, { wrap, unwrap, swapKey });
+	callback(err, { wrapFile, unwrapFile, swapKey });
 };
 
 //END OF moduleFunction() ============================================================
