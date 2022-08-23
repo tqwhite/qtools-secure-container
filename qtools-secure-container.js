@@ -11,8 +11,7 @@ const unwrapGen = require('./lib/unwrap');
 const swapKeyGen = () => ({});
 
 const nodeRsa = require('node-rsa');
-const path=require('path');
-
+const path = require('path');
 
 //START OF moduleFunction() ============================================================
 
@@ -30,31 +29,39 @@ const moduleFunction = function(args, callback) {
 	let unwrapFile;
 	let swapKey;
 	let err = '';
-	
-	const secureContainerWorkingDir = path.join(
-		'/tmp',
-		'secureContainerTemp'
-	);
+
+	const secureContainerWorkingDir = path.join('/tmp', 'secureContainerTemp');
 
 	if (nodeRsaKey) {
 		wrapFile = wrapGen({ nodeRsaKey, secureContainerWorkingDir }).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir }).unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey }).swapKey;
+		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir })
+			.unwrapFile;
+		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey })
+			.swapKey;
 	} else if (!nodeRsaKey && privateKey) {
 		nodeRsaKey = nodeRsa(privateKey);
 		wrapFile = wrapGen({ nodeRsaKey, secureContainerWorkingDir }).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir }).unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey }).swapKey;
+		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir })
+			.unwrapFile;
+		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey })
+			.swapKey;
 	} else if (!nodeRsaKey && publicKey) {
 		nodeRsaKey = nodeRsa(publicKey);
 		wrapFile = wrapGen({ nodeRsaKey, secureContainerWorkingDir }).wrapFile;
 		unwrapFile = noPrivateKeyWrap; //can wrap() a thing but not unwrap() it w/o private key
-		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey }).swapKey;
+		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey })
+			.swapKey;
 	} else if (!nodeRsaKey) {
 		nodeRsaKey = nodeRsa({ b: 2048 });
-		wrapFile = wrapGen({ nodeRsaKey, secureContainerWorkingDir, returnNewKeys: true }).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir }).unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey }).swapKey;
+		wrapFile = wrapGen({
+			nodeRsaKey,
+			secureContainerWorkingDir,
+			returnNewKeys: true
+		}).wrapFile;
+		unwrapFile = unwrapGen({ nodeRsaKey, secureContainerWorkingDir })
+			.unwrapFile;
+		swapKey = swapKeyGen({ nodeRsaKey, secureContainerWorkingDir, newKey })
+			.swapKey;
 	} else {
 		err = 'No keys supplied to qtools-secure-container';
 	}
