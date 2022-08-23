@@ -1,0 +1,11 @@
+{
+  "name": "decryptdata",
+  "version": "1.0.0",
+  "description": "receive base64 encoded string of encrypted data, decrypt, unzip, write (file or directory) to temporary file path",
+  "main": "decryptData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TQ White II",
+  "license": "ISC"
+}

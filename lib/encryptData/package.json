@@ -1,0 +1,11 @@
+{
+  "name": "encryptdata",
+  "version": "1.0.0",
+  "description": "Receive buffer, write it to disk, do stuff, zip, base64, etc, and return a base64 buffer encrypted for travel",
+  "main": "encryptData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TQ White II",
+  "license": "ISC"
+}
