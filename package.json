@@ -1,6 +1,6 @@
 {
   "name": "qtools-secure-container",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "An encrypted file format that is more transparent and useful than a zip file.",
   "main": "qtools-secure-container.js",
   "scripts": {
