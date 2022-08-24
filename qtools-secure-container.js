@@ -12,6 +12,7 @@ const swapKeyGen = () => ({});
 
 const nodeRsa = require('node-rsa');
 const path = require('path');
+const fs=require('fs');
 
 //START OF moduleFunction() ============================================================
 
@@ -31,6 +32,7 @@ const moduleFunction = function(args, callback) {
 	let err = '';
 
 	const secureContainerWorkingDir = path.join('/tmp', 'secureContainerTemp');
+	fs.mkdirSync(secureContainerWorkingDir, {recursive:true});
 
 	if (nodeRsaKey) {
 		wrapFile = wrapGen({ nodeRsaKey, secureContainerWorkingDir }).wrapFile;
