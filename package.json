@@ -1,10 +1,13 @@
 {
   "name": "qtools-secure-container",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "An encrypted file format that is more transparent and useful than a zip file.",
   "main": "qtools-secure-container.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test-harness.js roundtrip package.json --verbose",
+    "test:wrap": "node test/test-harness.js wrap",
+    "test:unwrap": "node test/test-harness.js unwrap",
+    "test:roundtrip": "node test/test-harness.js roundtrip"
   },
   "repository": {
     "type": "git",
@@ -23,8 +26,10 @@
   },
   "homepage": "https://github.com/tqwhite/qtools-secure-container#readme",
   "dependencies": {
+    "archiver": "^7.0.1",
     "node-rsa": "^1.1.1",
     "qtools-asynchronous-pipe-plus": "^1.0.2",
-    "qtools-functional-library": "^1.1.10"
+    "qtools-functional-library": "^1.1.10",
+    "unzipper": "^0.12.3"
   }
 }
