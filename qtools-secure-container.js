@@ -10,7 +10,7 @@ const wrapGen = require('./lib/wrap');
 const unwrapGen = require('./lib/unwrap');
 const swapKeyGen = () => ({});
 
-const nodeRsa = require('node-rsa');
+const crypto = require('crypto');
 const path = require('path');
 const fs=require('fs');
 
@@ -18,8 +18,9 @@ const fs=require('fs');
 
 const moduleFunction = function(args, callback) {
 	const { privateKey, publicKey, newKey } = args;
-	let { nodeRsaKey, forceDitto } = args;
-	forceDitto=true
+	let { rsaKeyPem, forceDitto } = args;
+	forceDitto=true;
+
 	const noPrivateKeyWrap = (args, callback) => {
 		callback(
 			'No private key supplied to qtools-secure-container. unwrap() not allowed.'
@@ -34,35 +35,44 @@ const moduleFunction = function(args, callback) {
 	const secureContainerWorkingDir = path.join('/tmp', 'secureContainerTemp');
 	fs.mkdirSync(secureContainerWorkingDir, {recursive:true});
 
-	if (nodeRsaKey) {
-		wrapFile = wrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir }).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir })
+	if (rsaKeyPem) {
+		// rsaKeyPem is a PEM string (private or public key)
+		wrapFile = wrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir }).wrapFile;
+		unwrapFile = unwrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir })
 			.unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir, newKey })
+		swapKey = swapKeyGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir, newKey })
 			.swapKey;
-	} else if (!nodeRsaKey && privateKey) {
-		nodeRsaKey = nodeRsa(privateKey);
-		wrapFile = wrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir }).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir })
+	} else if (!rsaKeyPem && privateKey) {
+		// privateKey is a PEM string
+		rsaKeyPem = privateKey;
+		wrapFile = wrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir }).wrapFile;
+		unwrapFile = unwrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir })
 			.unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir, newKey })
+		swapKey = swapKeyGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir, newKey })
 			.swapKey;
-	} else if (!nodeRsaKey && publicKey) {
-		nodeRsaKey = nodeRsa(publicKey);
-		wrapFile = wrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir }).wrapFile;
+	} else if (!rsaKeyPem && publicKey) {
+		// publicKey is a PEM string - can only wrap, not unwrap
+		rsaKeyPem = publicKey;
+		wrapFile = wrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir }).wrapFile;
 		unwrapFile = noPrivateKeyWrap; //can wrap() a thing but not unwrap() it w/o private key
-		swapKey = swapKeyGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir, newKey })
+		swapKey = swapKeyGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir, newKey })
 			.swapKey;
-	} else if (!nodeRsaKey) {
-		nodeRsaKey = nodeRsa({ b: 2048 });
+	} else if (!rsaKeyPem) {
+		// Generate new key pair using native crypto
+		const { privateKey: newPrivateKey, publicKey: newPublicKey } = crypto.generateKeyPairSync('rsa', {
+			modulusLength: 2048,
+			publicKeyEncoding: { type: 'spki', format: 'pem' },
+			privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+		});
+		rsaKeyPem = newPrivateKey;
 		wrapFile = wrapGen({
-			nodeRsaKey, forceDitto,
+			rsaKeyPem, forceDitto,
 			secureContainerWorkingDir,
 			returnNewKeys: true
 		}).wrapFile;
-		unwrapFile = unwrapGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir })
+		unwrapFile = unwrapGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir })
 			.unwrapFile;
-		swapKey = swapKeyGen({ nodeRsaKey, forceDitto, secureContainerWorkingDir, newKey })
+		swapKey = swapKeyGen({ rsaKeyPem, forceDitto, secureContainerWorkingDir, newKey })
 			.swapKey;
 	} else {
 		err = 'No keys supplied to qtools-secure-container';
