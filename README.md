@@ -48,10 +48,9 @@ npm run test:unwrap <in> <dir>     # Decrypt only
 
 ## Changelog
 
-### v0.0.29
-- **Security improvement**: Switched to streaming encryption/decryption
+### v0.0.30
+- Switched to streaming encryption/decryption
 - No unencrypted temp files written to disk during processing
-- ~4x faster than previous temp-file-based approach
 - Backward compatible with containers created by earlier versions
 
 ### v0.0.28
