@@ -48,6 +48,9 @@ npm run test:unwrap <in> <dir>     # Decrypt only
 
 ## Changelog
 
+### v0.0.31
+- License changed to MIT (was ISC). No code changes.
+
 ### v0.0.30
 - Switched to streaming encryption/decryption
 - No unencrypted temp files written to disk during processing
@@ -59,4 +62,4 @@ npm run test:unwrap <in> <dir>     # Decrypt only
 
 ## License
 
-ISC
+MIT

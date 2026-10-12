@@ -1,6 +1,6 @@
 {
   "name": "qtools-secure-container",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "An encrypted file format that is more transparent and useful than a zip file.",
   "main": "qtools-secure-container.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "transport"
   ],
   "author": "TQ White II",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tqwhite/qtools-secure-container/issues"
   },
